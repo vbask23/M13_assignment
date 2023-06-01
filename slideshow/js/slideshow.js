@@ -1,5 +1,10 @@
 // REWRITTEN TO TAKE ADVANTAGE OF CLOSURES
 const $ = (id) => document.getElementById(id)
+let speed0 = document.getElementById(play_pause)
+let btn1 = document.createElement('button')
+var s = document.createTextNode("Set Speed");
+btn1.appendChild(s) 
+document.querySelector('p:first-of-type').appendChild(btn1)
 
 const createSlideshow = function () {
     // PRIVATE VARIABLES AND FUNCTIONS
@@ -7,7 +12,8 @@ const createSlideshow = function () {
     let play = true    
     let nodes = { image: null, caption: null }
     let img = { cache: [], counter: 0 }
-    
+    this.speed
+
     const stopSlideShow = function () {
         clearInterval(timer)
     }
@@ -65,7 +71,20 @@ const createSlideshow = function () {
                 // TOGGLE PLAY 'FLAG'
                 play = !play
             }
-        }
+        },
+        
+
+        getSpeed: function () {
+            btn1.addEventListener('click', () =>{
+                speed = prompt('The current speed is 2000 (2 seconds)\nEnter the speed you desire')
+                return this
+            })
+        },
+        setSpeed: function (speed) {           
+            timer = setInterval(displayNextImage, speed) 
+
+        
+        }    
     }
 }
 
@@ -82,7 +101,9 @@ window.addEventListener('load', () => {
         {href: 'images/wakesurf.jpg', title: 'He loves to wakesurf behind his boat'}
     ]
 	// START THE SLIDESHOW
+    slideshow.getSpeed()
     slideshow.loadImages(slides).startSlideShow($('image'), $('caption'))
     // PAUSE THE SLIDESHOW
     $('play_pause').onclick = slideshow.createToggleHandler()
 })
+
